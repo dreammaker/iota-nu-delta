@@ -13,7 +13,7 @@ Indicator.prototype.update = function(price) {
     this.sumPrices += price;
     this.result = 0;
   }
-  else if (index == period - 1) {
+  else if (index === period - 1) {
     // The first EMA is actually the SMA of the first period.
     this.sumPrices += price;
     this.result = this.sumPrices / period;
