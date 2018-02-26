@@ -17,7 +17,7 @@ describe('indicators/projectgEMA', function() {
     var ema = new EMA(10);
     pricesEMA.forEach((price, i) => {
       ema.update(price);
-      expect(ema.result).to.be.closeTo(expectedEMA[i], 0.0000001);
+      expect(ema.result).to.be.closeTo(expectedEMA[i], 0.00000001);
     });
   });
 
