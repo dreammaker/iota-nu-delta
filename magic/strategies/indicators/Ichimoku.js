@@ -1,12 +1,18 @@
 // Ichimoku Cloud indicator.
 //
-// Standard arguments are: (9, 26, 52, 26).
-var Indicator = function(conversionPeriods, basePeriods, laggingSpan2Periods, displacement) {
+// Standard arguments are:
+//   conversionPeriods: 9
+//   basePeriods: 26
+//   laggingSpan2Periods: 52
+//   displacement: 26
+//
+// All arguments must be positive integers.  Displacement can be zero.
+var Indicator = function(settings) {
   this.input = 'candle';
-  this.conversionPeriods = conversionPeriods;
-  this.basePeriods = basePeriods;
-  this.laggingSpan2Periods = laggingSpan2Periods;
-  this.displacement = displacement;
+  this.conversionPeriods = settings.conversionPeriods;
+  this.basePeriods = settings.basePeriods;
+  this.laggingSpan2Periods = settings.laggingSpan2Periods;
+  this.displacement = settings.displacement;
 
   // Output conversion line.
   this.tenkanSen = 0;
@@ -18,7 +24,7 @@ var Indicator = function(conversionPeriods, basePeriods, laggingSpan2Periods, di
   this.senkouB = 0;
 
   // The number of historical highs and lows we need.  Used internally.
-  this.requiredHistory = Math.max(conversionPeriods, basePeriods, laggingSpan2Periods);
+  this.requiredHistory = Math.max(this.conversionPeriods, this.basePeriods, this.laggingSpan2Periods);
   // These arrays must always have the same length.
   this.highPrices = [];
   this.lowPrices = [];

@@ -2,11 +2,15 @@
 //
 // If you don't need the entire cloud, this may be a more performant version.
 //
-// Standard arguments are: (9, 26).
-var Indicator = function(conversionPeriods, basePeriods) {
+// Standard arguments are:
+//   conversionPeriods: 9
+//   basePeriods: 26
+//
+// All arguments must be positive integers.
+var Indicator = function(settings) {
   this.input = 'candle';
-  this.conversionPeriods = conversionPeriods;
-  this.basePeriods = basePeriods;
+  this.conversionPeriods = settings.conversionPeriods;
+  this.basePeriods = settings.basePeriods;
 
   // Output conversion line.
   this.tenkanSen = 0;
@@ -14,7 +18,7 @@ var Indicator = function(conversionPeriods, basePeriods) {
   this.kijunSen = 0;
 
   // The number of historical highs and lows we need.  Used internally.
-  this.requiredHistory = Math.max(conversionPeriods, basePeriods);
+  this.requiredHistory = Math.max(this.conversionPeriods, this.basePeriods);
   // These arrays must always have the same length.
   this.highPrices = [];
   this.lowPrices = [];
