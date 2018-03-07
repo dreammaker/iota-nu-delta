@@ -1,23 +1,30 @@
-// The Tenkan Sen and Kijun Sen components of the Ichimoku Cloud indicator.
+// Ichimoku Cloud indicator.
 //
-// If you don't need the entire cloud, this may be a more performant version.
-//
-// Standard arguments are: (9, 26).
-var Indicator = function(conversionPeriods, basePeriods) {
+// Standard arguments are: (9, 26, 52, 26).
+var Indicator = function(conversionPeriods, basePeriods, laggingSpan2Periods, displacement) {
   this.input = 'candle';
   this.conversionPeriods = conversionPeriods;
   this.basePeriods = basePeriods;
+  this.laggingSpan2Periods = laggingSpan2Periods;
+  this.displacement = displacement;
 
   // Output conversion line.
   this.tenkanSen = 0;
   // Output base line.
   this.kijunSen = 0;
+  // Output leading span A.
+  this.senkouA = 0;
+  // Output leading span B.
+  this.senkouB = 0;
 
   // The number of historical highs and lows we need.  Used internally.
-  this.requiredHistory = Math.max(conversionPeriods, basePeriods);
+  this.requiredHistory = Math.max(conversionPeriods, basePeriods, laggingSpan2Periods);
   // These arrays must always have the same length.
   this.highPrices = [];
   this.lowPrices = [];
+  // Buffers to store future leading span values.
+  this.senkouABuffer = [];
+  this.senkouBBuffer = [];
 }
 
 Indicator.prototype.update = function(candle) {
@@ -36,6 +43,26 @@ Indicator.prototype.update = function(candle) {
 
   if (numPrices >= this.basePeriods) {
     this.kijunSen = this._donchianCenter(this.basePeriods);
+
+    // Future Senkou Span A is the mean between Tenkan Sen and Kijun Sen.
+    let futureSenkouA = (this.tenkanSen + this.kijunSen) / 2;
+    // Save it for later.
+    this.senkouABuffer.push(futureSenkouA);
+    // If we have a Senkou Span A from before, use it.
+    if (this.senkouABuffer.length > this.displacement) {
+      this.senkouA = this.senkouABuffer.shift();
+    }
+  }
+
+  if (numPrices >= this.laggingSpan2Periods) {
+    // Future Senkou Span B.
+    let futureSenkouB = this._donchianCenter(this.laggingSpan2Periods);
+    // Save it for later.
+    this.senkouBBuffer.push(futureSenkouB);
+    // If we have a Senkou Span B from before, use it.
+    if (this.senkouBBuffer.length > this.displacement) {
+      this.senkouB = this.senkouBBuffer.shift();
+    }
   }
 }
 
