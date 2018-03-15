@@ -9,6 +9,11 @@ describe('indicators/projectgRSI', function() {
 
   var RSI = require(INDICATOR_PATH + 'projectgRSI');
 
+  it('should accept a settings object like the built-in RSI', function() {
+    var rsi = new RSI({ interval: 42 });
+    expect(rsi.period).to.equal(42);
+  });
+
   it('should calculate RSIs like stockcharts', function() {
     // Source: http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
     var closePrices = [44.3389, 44.0902, 44.1497, 43.6124, 44.3278, 44.8264, 45.0955, 45.4245, 45.8433, 46.0826, 45.8931, 46.0328, 45.614, 46.282, 46.282, 46.0028, 46.0328, 46.4116, 46.2222, 45.6439, 46.2122, 46.2521, 45.7137, 46.4515, 45.7835, 45.3548, 44.0288, 44.1783, 44.2181, 44.5672, 43.4205, 42.6628, 43.1314]

@@ -1,6 +1,9 @@
-var Indicator = function(period) {
+let _ = require('lodash');
+
+let Indicator = function(period) {
   this.input = 'price';
-  this.period = period;
+  // Be compatible with built-in RSI which accepts a settings object.
+  this.period = _.isNumber(period) ? period : period.interval;
   this.result = 0;
   this.index = 0;
   this.previousPrice = 0;
