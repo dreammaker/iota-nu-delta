@@ -1,13 +1,16 @@
-var chai = require('chai');
-var expect = chai.expect;
+let chai = require('chai');
+let expect = chai.expect;
 
-var util = require('../../core/util');
-var dirs = util.dirs();
-var INDICATOR_PATH = dirs.indicators;
+let util = require('../../core/util');
+let path = require('path');
 
-describe('indicators/projectgEMA', function() {
+let dirs = util.dirs();
+let INDICATOR_PATH = dirs.indicators;
+let filename = path.basename(__filename);
 
-  var EMA = require(INDICATOR_PATH + 'projectgEMA');
+describe('indicators/' + filename, function() {
+
+  let EMA = require(INDICATOR_PATH + filename);
 
   it('should calculate EMAs like stockcharts', function() {
     // Source: http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:moving_averages

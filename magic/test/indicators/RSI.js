@@ -1,13 +1,16 @@
-var chai = require('chai');
-var expect = chai.expect;
+let chai = require('chai');
+let expect = chai.expect;
 
-var util = require('../../core/util');
-var dirs = util.dirs();
-var INDICATOR_PATH = dirs.indicators;
+let util = require('../../core/util');
+let path = require('path');
 
-describe('indicators/projectgRSI', function() {
+let dirs = util.dirs();
+let INDICATOR_PATH = dirs.indicators;
+let filename = path.basename(__filename);
 
-  var RSI = require(INDICATOR_PATH + 'projectgRSI');
+describe('indicators/' + filename, function() {
+
+  let RSI = require(INDICATOR_PATH + filename);
 
   it('should accept a settings object like the built-in RSI', function() {
     var rsi = new RSI({ interval: 42 });

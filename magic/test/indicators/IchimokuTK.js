@@ -2,12 +2,15 @@ let chai = require('chai');
 let expect = chai.expect;
 
 let util = require('../../core/util');
+let path = require('path');
+
 let dirs = util.dirs();
 let INDICATOR_PATH = dirs.indicators;
+let filename = path.basename(__filename);
 
-describe('indicators/projectgIchimokuTK', function() {
+describe('indicators/' + filename, function() {
 
-  let IchimokuTK = require(INDICATOR_PATH + 'projectgIchimokuTK');
+  let IchimokuTK = require(INDICATOR_PATH + filename);
 
   it('should calculate Tenkan Sen and Kijun Sen like TradingView', function() {
     // Candle data from Binance API 2017-08-26 1d.

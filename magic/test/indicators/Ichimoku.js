@@ -2,12 +2,15 @@ let chai = require('chai');
 let expect = chai.expect;
 
 let util = require('../../core/util');
+let path = require('path');
+
 let dirs = util.dirs();
 let INDICATOR_PATH = dirs.indicators;
+let filename = path.basename(__filename);
 
-describe('indicators/projectgIchimoku', function() {
+describe('indicators/' + filename, function() {
 
-  let Ichimoku = require(INDICATOR_PATH + 'projectgIchimoku');
+  let Ichimoku = require(INDICATOR_PATH + filename);
 
   it('should calculate Ichimoku Cloud like TradingView', function() {
     // Candle data from Binance API 2017-08-26 1d.
