@@ -1,0 +1,5 @@
+[cloud]
+conversionPeriods = 9
+basePeriods = 26
+laggingSpan2Periods = 52
+displacement = 26
