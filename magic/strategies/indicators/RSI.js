@@ -1,5 +1,11 @@
 let _ = require('lodash');
 
+// Relative Strength Index.
+//
+// Standard arguments:
+//   interval: 14
+//
+// Interval must be a positive integer.
 let Indicator = function(period) {
   this.input = 'price';
   // Be compatible with built-in RSI which accepts a settings object.
@@ -54,12 +60,8 @@ Indicator.prototype.update = function(price) {
   }
   this.previousAvgUp = avgUps;
   this.previousAvgDown = avgDowns;
-  this.result = this.calculateRSI(avgUps, avgDowns);
-}
-
-Indicator.prototype.calculateRSI = function(upAverage, downAverage) {
-  let relativeStrength = upAverage / downAverage;
-  return 100 - (100 / (1 + relativeStrength));
+  let relativeStrength = avgUps / avgDowns;
+  this.result = 100 - (100 / (1 + relativeStrength));
 }
 
 module.exports = Indicator;
