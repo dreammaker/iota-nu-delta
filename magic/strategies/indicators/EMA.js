@@ -1,3 +1,4 @@
+// Exponential Moving Average.
 var Indicator = function(period) {
   this.input = 'price';
   this.period = period;
@@ -19,15 +20,11 @@ Indicator.prototype.update = function(price) {
     this.result = this.sumPrices / period;
   }
   else {
-    this.previousResult = this.result;
-    this.result = this.emaFormula(period, this.previousResult, price);
+    let previousEMA = this.result;
+    let multiplier = 2 / (period + 1);
+    this.result = (price - previousEMA) * multiplier + previousEMA;
   }
   this.index++;
-}
-
-Indicator.prototype.emaFormula = function(period, previousEMA, price) {
-  let multiplier = 2 / (period + 1);
-  return (price - previousEMA) * multiplier + previousEMA;
 }
 
 module.exports = Indicator;
