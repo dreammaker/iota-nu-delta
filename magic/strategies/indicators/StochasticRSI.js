@@ -32,14 +32,18 @@ let Indicator = function(settings) {
   this.k = 0;
   this.d = 0;
 
+  this.rsiPeriods = settings.rsiPeriods;
   this.rsi = new RSI({ interval: settings.rsiPeriods });
+  this.rsiExpectsCandle = this.rsi.input === 'candle';
   this.period = settings.stochasticPeriods;
   this.kSMA = new SMA(settings.kPeriods);
   this.dSMA = new SMA(settings.dPeriods);
   this.rsiHistory = [];
+  this.index = 0;
   // SMA is meaningless until it has its periods filled.  Values only start
   // feeding it once stochasticPeriods is reached.
-  this.requiredHistory = settings.stochasticPeriods + Math.max(settings.kPeriods, settings.dPeriods) - 1;
+  this.requiredHistory = settings.rsiPeriods + settings.stochasticPeriods
+                         + Math.max(settings.kPeriods, settings.dPeriods) - 1;
 }
 
 Indicator.prototype.update = function(price) {
@@ -47,7 +51,16 @@ Indicator.prototype.update = function(price) {
   let rsiHistory = this.rsiHistory;
 
   // Compute RSI.
-  rsi.update(price);
+  if (this.rsiExpectsCandle) {
+    rsi.update({ close: price });
+  }
+  else {
+    rsi.update(price);
+  }
+  if (this.index < this.rsiPeriods) {
+    this.index++;
+    return;
+  }
 
   // Save history of RSI.
   let currentRSI = rsi.result;
